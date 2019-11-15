@@ -29,7 +29,6 @@ class PageDetailView(DetailView):
 
 def newPage(request):
   """Makes a new wiki page """
-  
   if request.method == 'POST':
     form = PageForm(request.POST)
     if form.is_valid():
