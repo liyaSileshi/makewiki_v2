@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
 from wiki.models import Page
-
+from wiki.forms import PageForm
 
 class PageListView(ListView):
     """ Renders a list of all Pages. """
@@ -26,3 +26,21 @@ class PageDetailView(DetailView):
         return render(request, 'page.html', {
           'page': page
         })
+
+def newPage(request):
+  """Makes a new wiki page """
+  
+  if request.method == 'POST':
+    form = PageForm(request.POST)
+    if form.is_valid():
+      page = form.save(commit = False)
+      page.author = request.user
+
+      page.save()
+      return redirect('wiki-list-page')
+      
+  form = PageForm()
+  context ={'form' : form}
+  return render(request, 'page_new.html', context)
+
+

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>New Wiki Page</h2>
+    <form method="POST" class="PageForm">{% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success ml-4">Save</button>
+    </form>
+{% endblock %}
