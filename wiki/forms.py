@@ -8,5 +8,6 @@ class PageForm(forms.ModelForm):
         model = Page
         fields = [
                 'title',
-                'content'
+                'content', 
+                'author'
             ]
