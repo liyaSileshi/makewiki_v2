@@ -1,5 +1,5 @@
 # wiki/tests.py
-from django.test import TestCase
+from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from wiki.models import Page
 from wiki.forms import PageForm
@@ -81,4 +81,25 @@ class PageCreateViewTests(TestCase):
         self.assertIn(b'Write the content of your page here.', response.content)
 
     def test_page_form_post(self):
-        pass
+        #get a user object
+        user = User.objects.create()
+
+        #make a form dictionary
+        form = {'title':"My Test Page",
+                        'content':"testing", 'author': user.id}
+
+        response = self.client.post('/new/', form = form)
+        self.assertEqual(response.status_code, 302) #not working
+
+        #create a page form with the form data and check if it's valid
+        form_page = PageForm(data=form)
+        form_page.save()
+        self.assertTrue(form_page.is_valid())
+
+        users = User.objects.all()
+        self.assertEqual(len(users), 1)
+
+        #check if the form is saved in the test db
+        page = Page.objects.get(title = 'My Test Page')
+        # print(page.author)
+        # self.assertEqual(page.title, 'My Test Page')
