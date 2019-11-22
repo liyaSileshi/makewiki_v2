@@ -2,7 +2,8 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from wiki.models import Page
-
+from wiki.forms import PageForm
+from django.urls import reverse
 # Create your tests here.
 class WikiTestCase(TestCase):
     def test_true_is_true(self):
@@ -72,6 +73,12 @@ class PageCreateViewTests(TestCase):
         # check that the creation page form loads when visiting
         response = self.client.get('/new/')
         self.assertEqual(response.status_code, 200)
-        
+
+        form = PageForm()
+        self.assertTrue(form)
+
+        self.assertIn(b'Title of your page.', response.content)
+        self.assertIn(b'Write the content of your page here.', response.content)
+
     def test_page_form_post(self):
-        
+        pass
