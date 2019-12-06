@@ -28,7 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', 'makewiki-v2-lt.herokuapp.com']
 
 
-
 # Application definition
 
 INSTALLED_APPS = [
